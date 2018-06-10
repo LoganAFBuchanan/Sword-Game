@@ -5,6 +5,11 @@ using UnityEngine;
 public class WalkerController : MonoBehaviour
 {
 
+	//Random Walkers are the footmen that trudge about the fresh map
+	//They call back to THEGREATCREATOR in order to enact their map creation whims upon their environment
+	//The leader of the walkers is called MAIN! They are the progenitor of all CHILD walkers who bow down to MAIN.
+	//CHILD walkers have reduced lifespans and can spawn their own CHILD walkers; but it's pretty unlikely.
+
     public GameObject ChildWalker;
     public GameObject Player;
     public GameObject Enemy;
@@ -23,8 +28,6 @@ public class WalkerController : MonoBehaviour
 
     private int previousDir;
 
-
-
     // Use this for initialization
     void Awake()
     {
@@ -37,8 +40,6 @@ public class WalkerController : MonoBehaviour
 			SetChildChance(0.3f);
         }
 
-		
-
     }
 
     // Update is called once per frame
@@ -50,26 +51,29 @@ public class WalkerController : MonoBehaviour
 	//Primary functions for creating the dungeon floors
     public void DrawPaths()
     {
-
         int lifeCounter = 0;
-        Debug.Log("DRAWINGPATHS");
 
         while (lifeCounter < lifetime)
         {
-
+			
             TheGreatCreator.ClearWall(this.transform);
 
-            int dir = Mathf.RoundToInt(Random.Range(0.0f, 3.0f));
+            int dir = Mathf.RoundToInt(Random.Range(0.0f, 3.0f)); //Choose Direction
             Vector3 moveVector = new Vector3(0, 0, 0);
 
+			//Assures that the walker doesn't move back and forth on one spot
             while (dir == previousDir)
             {
                 Debug.Log("WHOOPS TRY AGAIN!");
                 dir = Mathf.RoundToInt(Random.Range(0.0f, 3.0f));
             }
 
-            Debug.Log(dir);
-
+			/*
+			0 = up
+			1 = right
+			2 = down
+			3 = left
+			*/
             switch (dir)
             {
                 case 0:
