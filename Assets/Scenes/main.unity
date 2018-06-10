@@ -2143,6 +2143,48 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21ecf16c9d9cc3a45894c586aa591659, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &619110405
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.10594404
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 18.294004
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.17789683
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629410305924834, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e7319e9ec04ca7f46ae252a5de4014a1, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &629939109 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4466687866927264, guid: 21ecf16c9d9cc3a45894c586aa591659,

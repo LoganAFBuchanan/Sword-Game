@@ -20,4 +20,7 @@ public static class Constants {
 	public static int BASIC_ENEMY_DAMAGE = 1;
 
 	public static int WALL_DAMAGE = 1;
+
+	//MAP GENERATION VALUES
+	public static int START_ROOM_SIZE = 1;
 }
