@@ -11,6 +11,8 @@ public class MapCreation : MonoBehaviour
     public GameObject Wall;
     public GameObject Player;
     public GameObject MainWalker;
+    public GameObject Enemy;
+    public GameObject Tile;
 
     private Transform mapTransform;
 
@@ -22,8 +24,14 @@ public class MapCreation : MonoBehaviour
     {
         mapTransform = GetComponent<Transform>();
 
+        
+    }
+
+    void Start()
+    {
         InitializeMap();
         MainWalker.GetComponent<WalkerController>().DrawPaths();
+        AstarPath.active.Scan();
     }
 
     // Update is called once per frame
@@ -35,6 +43,7 @@ public class MapCreation : MonoBehaviour
             ClearMap();
             InitializeMap();
             MainWalker.GetComponent<WalkerController>().DrawPaths();
+            AstarPath.active.Scan();
         }
 
     }
@@ -48,8 +57,10 @@ public class MapCreation : MonoBehaviour
             {
 
                 GameObject newWall = GameObject.Instantiate(Wall, mapTransform);
+                GameObject newTile = GameObject.Instantiate(Tile, mapTransform);
 
                 newWall.transform.position = new Vector3(x, y, 0);
+                newTile.transform.position = new Vector3(x, y, 0);
 
             }
         }
@@ -62,11 +73,21 @@ public class MapCreation : MonoBehaviour
     {
         foreach (Transform child in mapTransform)
         {
-            if (child.gameObject.layer == 8)
+            if (child.gameObject.layer == 8 || child.gameObject.layer == 12 || child.gameObject.layer == 13)
             {
                 GameObject.Destroy(child.gameObject);
             }
         }
+
+        foreach (Transform child in MainWalker.transform)
+        {
+            if (child.gameObject.layer == 12)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+        
+        MainWalker.GetComponent<WalkerController>().InitializeValues();
     }
 
     public void ClearWall(Transform walkerPos)
@@ -96,4 +117,12 @@ public class MapCreation : MonoBehaviour
             }
         }
     }
+
+    public void SetMarker(Transform walkerPos){
+        GameObject.Instantiate(Tile, walkerPos);
+    }
+
+    public void PlaceEnemy(Transform walkerPos){
+        GameObject.Instantiate(Enemy, walkerPos);
+    }   
 }

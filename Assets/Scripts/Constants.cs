@@ -16,7 +16,7 @@ public static class Constants {
 	public static int PLAYER_STARTING_HEALTH = 3;
 	public static int PLAYER_STARTING_DAMAGE = 1;
 
-	public static int BASIC_ENEMY_HEALTH = 2000;
+	public static int BASIC_ENEMY_HEALTH = 3;
 	public static int BASIC_ENEMY_DAMAGE = 1;
 
 	public static int WALL_DAMAGE = 1;

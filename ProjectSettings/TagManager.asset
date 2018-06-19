@@ -17,8 +17,8 @@ TagManager:
   - Sword
   - Enemy
   - Player
-  - 
-  - 
+  - Walker
+  - Floor
   - 
   - 
   - 
@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Floor
+    uniqueID: 3226301345
+    locked: 0
   - name: Test in front
     uniqueID: 1857959981
+    locked: 0
+  - name: Character
+    uniqueID: 2028794371
+    locked: 0
+  - name: Wall
+    uniqueID: 3814849895
     locked: 0

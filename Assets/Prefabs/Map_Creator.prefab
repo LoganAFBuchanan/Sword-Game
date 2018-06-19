@@ -84,8 +84,10 @@ MonoBehaviour:
   Wall: {fileID: 1288669553069704, guid: 21ecf16c9d9cc3a45894c586aa591659, type: 2}
   Player: {fileID: 1356197046982310, guid: de6916280c91a454881dd2f1c6896a05, type: 2}
   MainWalker: {fileID: 1736204703370014}
-  mapWidth: 25
-  mapHeight: 25
+  Enemy: {fileID: 1161340377711402, guid: 50d4c295164a30844bf5a8fd2c73979b, type: 2}
+  Tile: {fileID: 1381811073713528, guid: 183d948114e1b9447b1a5d34be80b88c, type: 2}
+  mapWidth: 40
+  mapHeight: 40
 --- !u!114 &114688271590724160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,5 +102,4 @@ MonoBehaviour:
   ChildWalker: {fileID: 1034400991809830, guid: 593d0fbb2cdb9f04b9cd43bef315e83a,
     type: 2}
   Player: {fileID: 0}
-  Enemy: {fileID: 1161340377711402, guid: 50d4c295164a30844bf5a8fd2c73979b, type: 2}
   type: 0

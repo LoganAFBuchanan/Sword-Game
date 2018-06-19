@@ -12,7 +12,7 @@ public class WalkerController : MonoBehaviour
 
     public GameObject ChildWalker;
     public GameObject Player;
-    public GameObject Enemy;
+    
 
     public enum WalkerType
     {
@@ -22,22 +22,31 @@ public class WalkerController : MonoBehaviour
 
     public WalkerType type;
 
+    private GameObject MapObject;
     private MapCreation TheGreatCreator;
     private int lifetime;
     private float childSpawnChance;
+
+    private GameObject MainWalker;
 
     private int previousDir;
 
     // Use this for initialization
     void Awake()
     {
-        TheGreatCreator = GameObject.Find("Map_Creator").GetComponent<MapCreation>();
+
+        MapObject = GameObject.Find("Map_Creator");
+        TheGreatCreator = MapObject.GetComponent<MapCreation>();
 
 		//Sets initial main values
         if (type == WalkerType.Main)
         {
-            SetLifetime(10);
-			SetChildChance(0.3f);
+            InitializeValues();
+        }
+
+        if (type == WalkerType.Child)
+        {
+            MainWalker = GameObject.Find("MainWalker");
         }
 
     }
@@ -48,17 +57,22 @@ public class WalkerController : MonoBehaviour
 
     }
 
+    public void InitializeValues(){
+        SetLifetime(35);
+		SetChildChance(0.7f);
+    }
+
 	//Primary functions for creating the dungeon floors
     public void DrawPaths()
     {
         int lifeCounter = 0;
 
-        while (lifeCounter < lifetime)
+        while (lifeCounter <= lifetime)
         {
 			
             TheGreatCreator.ClearWall(this.transform);
 
-            int dir = Mathf.RoundToInt(Random.Range(0.0f, 3.0f)); //Choose Direction
+            int dir = Random.Range(0, 4); //Choose Direction
             Vector3 moveVector = new Vector3(0, 0, 0);
 
 			//Assures that the walker doesn't move back and forth on one spot
@@ -95,13 +109,41 @@ public class WalkerController : MonoBehaviour
             }
 
             this.transform.position += moveVector;
+            
+
+
+            float spawnRoll = Random.Range(0.0f, 1.0f);
+
+            if(spawnRoll <= childSpawnChance){
+
+                int childLife = Mathf.RoundToInt((lifetime-lifeCounter) * 0.8f);
+                float newChildChance = childSpawnChance * 0.2f;
+
+                InstantiateChildWalker(childLife, newChildChance);
+
+            }
 
             lifeCounter++;
+            childSpawnChance *= 0.8f;
+
+            // //TEST STUFF
+            // if(type == WalkerType.Main) {
+            //     Player.transform.position = this.transform.position;
+            //     GameObject tileplaced = GameObject.Instantiate(Tile, this.transform);
+            //     tileplaced.transform.SetParent(MapObject.transform);
+            // }
 
 			//Map creation actions for walker death
-            if (lifeCounter == lifetime - 1)
+            if (lifeCounter == lifetime)
             {
-                if(type == WalkerType.Main) Player.transform.position = this.transform.position;
+                if(type == WalkerType.Main) {
+                    Player.transform.position = this.transform.position;
+                }
+                if(type == WalkerType.Child) 
+                {
+                    
+                    TheGreatCreator.PlaceEnemy(this.transform);
+                }
 
                 TheGreatCreator.ClearRoom(this.transform, Constants.START_ROOM_SIZE);
             }
@@ -112,6 +154,8 @@ public class WalkerController : MonoBehaviour
 
 		GameObject newChild = GameObject.Instantiate(ChildWalker, this.transform);
 		WalkerController newChildScript = newChild.GetComponent<WalkerController>();
+        newChild.transform.position = this.transform.position;
+        newChild.transform.SetParent(MapObject.transform);
 
 		newChildScript.SetLifetime(life);
 		newChildScript.SetChildChance(spawnChance);

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4424527673033616}
   - component: {fileID: 114308396252710984}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ChildWalker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,4 +54,5 @@ MonoBehaviour:
   ChildWalker: {fileID: 1034400991809830}
   Player: {fileID: 0}
   Enemy: {fileID: 1161340377711402, guid: 50d4c295164a30844bf5a8fd2c73979b, type: 2}
+  Tile: {fileID: 1381811073713528, guid: 183d948114e1b9447b1a5d34be80b88c, type: 2}
   type: 1

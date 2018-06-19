@@ -110,6 +110,8 @@ public class SwordPosition : MonoBehaviour {
 			rotatePosition = 0;
 		}
 
+		player.GetComponent<PlayerController>().ChangeSprite(rotatePosition);
+
 		Debug.Log("Sword position is " + rotatePosition);
 
 	}
