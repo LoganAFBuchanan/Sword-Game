@@ -12,7 +12,15 @@ public class EnemyController : MonoBehaviour
     private ObjectStats stats;
     private MoveObject moveScript;
 
+    private GameObject player;
+
     private CameraController gameCamera;
+
+    private Pathfinding.AIDestinationSetter destSetter;
+    private Pathfinding.AILerp destLerp;
+
+    private Vector3 destVector;
+    private Quaternion destQuad;
 
     public enum EnemyType
     {
@@ -25,6 +33,10 @@ public class EnemyController : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+
+        destSetter = GetComponent<Pathfinding.AIDestinationSetter>();
+        destLerp = GetComponent<Pathfinding.AILerp>();
+        player = GameObject.Find("Player");
 
         enemyTransform = GetComponent<Transform>();
         enemyBoxCollider = GetComponent<BoxCollider2D>();
@@ -39,16 +51,48 @@ public class EnemyController : MonoBehaviour
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.BASIC_ENEMY_DAMAGE);
         }
+
+        destSetter.target = player.transform;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if (stats.GetHealth() <= 0)
         {
             Debug.Log(this.gameObject + " HAS DIED");
             this.gameObject.SetActive(false);
+        }
+
+        
+
+        if(Input.GetButtonDown("Jump")){
+            destLerp.MovementUpdate(Time.deltaTime, out destVector, out destQuad);
+            Debug.Log("EnemyTransform: " + enemyTransform.position);
+            Debug.Log(destVector);
+
+            //Up
+            if(destVector.y > transform.position.y){
+                StartCoroutine(moveScript.move(enemyTransform, new Vector2(0, 1)));
+                return;
+            }
+            //Down
+            if(destVector.y < transform.position.y){
+                StartCoroutine(moveScript.move(enemyTransform, new Vector2(0, -1)));
+                return;
+            }
+            //Right
+            if(destVector.x > transform.position.x){
+                StartCoroutine(moveScript.move(enemyTransform, new Vector2(1, 0)));
+                return;
+            }
+            //Left
+            if(destVector.x < transform.position.x){
+                StartCoroutine(moveScript.move(enemyTransform, new Vector2(-1, 0)));
+                return;
+            }
+            
         }
 
     }
