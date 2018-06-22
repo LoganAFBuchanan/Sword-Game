@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
-	private ObjectStats stats;
+ 
+	[System.NonSerialized] public ObjectStats stats;
+	private PlayerMovement moveScript;
 
 	private SpriteRenderer spriteRender;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 
 		stats = GetComponent<ObjectStats>();
 		spriteRender = GetComponent<SpriteRenderer>();
+		moveScript = GetComponent<PlayerMovement>();
 
 		stats.SetMaxHealth(Constants.PLAYER_STARTING_HEALTH);
 		stats.SetHealth(stats.GetMaxHealth());

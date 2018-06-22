@@ -86,6 +86,7 @@ MonoBehaviour:
   MainWalker: {fileID: 1736204703370014}
   Enemy: {fileID: 1161340377711402, guid: 50d4c295164a30844bf5a8fd2c73979b, type: 2}
   Tile: {fileID: 1381811073713528, guid: 183d948114e1b9447b1a5d34be80b88c, type: 2}
+  EnemyList: {fileID: 0}
   mapWidth: 40
   mapHeight: 40
 --- !u!114 &114688271590724160

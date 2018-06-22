@@ -14,6 +14,8 @@ public class MapCreation : MonoBehaviour
     public GameObject Enemy;
     public GameObject Tile;
 
+    public GameObject EnemyList;
+
     private Transform mapTransform;
 
     public int mapWidth;
@@ -24,7 +26,7 @@ public class MapCreation : MonoBehaviour
     {
         mapTransform = GetComponent<Transform>();
 
-        
+
     }
 
     void Start()
@@ -86,7 +88,13 @@ public class MapCreation : MonoBehaviour
                 GameObject.Destroy(child.gameObject);
             }
         }
-        
+        foreach (Transform child in EnemyList.transform)
+        {
+
+            GameObject.Destroy(child.gameObject);
+
+        }
+
         MainWalker.GetComponent<WalkerController>().InitializeValues();
     }
 
@@ -118,11 +126,14 @@ public class MapCreation : MonoBehaviour
         }
     }
 
-    public void SetMarker(Transform walkerPos){
+    public void SetMarker(Transform walkerPos)
+    {
         GameObject.Instantiate(Tile, walkerPos);
     }
 
-    public void PlaceEnemy(Transform walkerPos){
-        GameObject.Instantiate(Enemy, walkerPos);
-    }   
+    public void PlaceEnemy(Transform walkerPos)
+    {
+        GameObject newEnemy = GameObject.Instantiate(Enemy, walkerPos);
+        newEnemy.transform.parent = EnemyList.transform;
+    }
 }

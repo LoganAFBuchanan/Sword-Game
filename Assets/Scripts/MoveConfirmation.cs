@@ -20,6 +20,8 @@ public class MoveConfirmation : MonoBehaviour {
 	private RaycastHit2D ray;
     public LayerMask wallLayer;
 	public LayerMask swordLayer;
+	public LayerMask playerLayer;
+	public LayerMask enemyLayer;
 
 	// Use this for initialization
 	void Awake () {
@@ -48,6 +50,8 @@ public class MoveConfirmation : MonoBehaviour {
 		//0 = Free
 		//1 = Wall
 		//2 = Sword
+		//3 = Player
+		//4 = Enemy
 
 		int foundObject = 0;
 
@@ -87,6 +91,26 @@ public class MoveConfirmation : MonoBehaviour {
 		if(objectHit.transform != null){
 			foundObject = 2;
 		}
+
+		objectHit = Physics2D.Linecast(objectStart, objectEnd, playerLayer);
+		Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
+
+		Debug.Log(movableObject + " is detecting Players with "+ objectHit.transform);
+
+		if(objectHit.transform != null){
+			foundObject = 3;
+		}
+
+		objectHit = Physics2D.Linecast(objectStart, objectEnd, enemyLayer);
+		Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
+
+		Debug.Log(movableObject + " is detecting Enemies with "+ objectHit.transform);
+
+		if(objectHit.transform != null){
+			foundObject = 4;
+		}
+
+
 		
 
         //Re-enable boxCollider after linecast
