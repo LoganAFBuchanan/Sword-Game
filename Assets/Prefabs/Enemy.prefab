@@ -81,7 +81,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0026398897, y: -0.028927028}
+  m_Offset: {x: 0.015197873, y: -0.06660104}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -92,7 +92,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7993698, y: 0.80425787}
+  m_Size: {x: 0.5733273, y: 0.6284461}
   m_EdgeRadius: 0
 --- !u!114 &114011678810059510
 MonoBehaviour:
@@ -133,6 +133,12 @@ MonoBehaviour:
   swordLayer:
     serializedVersion: 2
     m_Bits: 512
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &114751424452148606
 MonoBehaviour:
   m_ObjectHideFlags: 1

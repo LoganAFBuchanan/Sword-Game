@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool allowDiagonals;
 
-    private bool moveCoolingDown;
 
     protected virtual void Awake(){
 
@@ -39,21 +38,17 @@ public class PlayerMovement : MonoBehaviour
         swordPos = playerSword.GetComponent<SwordPosition>();
 
         allowDiagonals = false;
-        moveCoolingDown = false;
+        
+        
     }
 
     public void FixedUpdate()
     {
-        if (!moveController.isMoving && !moveCoolingDown && (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
+        if (!moveController.isMoving && !playerControl.GetMoveWait() && (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
         {
             PlayerMove();
             gameControl.TurnEnd();
         }
-    }
-
-    private IEnumerator MoveCoolDown(){
-        yield return new WaitForSeconds(Constants.MOVE_COOLDOWN);
-		moveCoolingDown = false;
     }
 
     public void PlayerMove(){
@@ -108,8 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
             
 
-            moveCoolingDown = true;
-            StartCoroutine(MoveCoolDown());
+            
     }
 
 

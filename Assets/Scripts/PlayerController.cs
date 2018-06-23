@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public Sprite rightLook;
 	public Sprite downLook;
 	
+	private bool moveWait;
 
 
 	// Use this for initialization
@@ -56,5 +57,13 @@ public class PlayerController : MonoBehaviour {
               Debug.Log("Change Sprite for Player Error");
               break;
 		}
+	}
+
+	public bool GetMoveWait(){
+		return moveWait;
+	}
+
+	public void SetMoveWait(bool set){
+		moveWait = set;
 	}
 }

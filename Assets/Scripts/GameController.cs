@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 
 	private GameObject enemyList;
 	private GameObject player;
+	private PlayerController playerControl;
 
 
 
@@ -14,6 +15,8 @@ public class GameController : MonoBehaviour {
 		
 		enemyList = GameObject.Find("EnemyList");
 		player = GameObject.Find("Player");
+
+		playerControl = player.GetComponent<PlayerController>();
 
 	}
 	
@@ -25,19 +28,31 @@ public class GameController : MonoBehaviour {
 	//This is where all enemy and passive updates will occur
 	public void TurnEnd(){
 
-		MoveEnemies();
+		StartCoroutine(MoveEnemies());
 
 	}
 
 
-	public void MoveEnemies(){
+	IEnumerator MoveEnemies(){
 
+		playerControl.SetMoveWait(true);
+		yield return new WaitForSeconds(0.1f);
 		foreach (Transform enemy in enemyList.transform)
         {
+			if(enemy.gameObject.activeInHierarchy){
 			EnemyController enemyScript = enemy.gameObject.GetComponent<EnemyController>();
 			enemyScript.moveEnemy();
+			yield return new WaitForSeconds(0.1f);
+			}
 
 		}
-
+		playerControl.SetMoveWait(false);
 	}
+
+	IEnumerator WaitTime(float t)
+    {
+        
+        yield return new WaitForSeconds(t);
+        MoveEnemies();
+    }
 }

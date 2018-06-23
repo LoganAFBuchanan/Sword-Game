@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void startFreeze(float dur){
-		//StartCoroutine(freezeFrame(dur));
+		StartCoroutine(freezeFrame(dur));
 	}
 
 	public IEnumerator freezeFrame(float dur)

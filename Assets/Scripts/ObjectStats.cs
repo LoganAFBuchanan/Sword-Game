@@ -42,6 +42,7 @@ public class ObjectStats : MonoBehaviour {
 	}
 
 	public void ChangeHealth(int change){
+		Debug.Log(this.gameObject.name + "had it's health changed by:" + change);
 		health += change;
 	}
 
