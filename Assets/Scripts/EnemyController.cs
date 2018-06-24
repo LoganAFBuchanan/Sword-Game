@@ -23,6 +23,11 @@ public class EnemyController : MonoBehaviour
     private Vector3 destVector;
     private Quaternion destQuad;
 
+    private RectTransform enemyHealthBar;
+    private GameObject enemyCanvas;
+    private float healthBarMaxWidth;
+    private float healthBarCurrWidth;
+
     public enum EnemyType
     {
         Basic,
@@ -47,6 +52,11 @@ public class EnemyController : MonoBehaviour
 
         gameCamera = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
+        enemyHealthBar = this.transform.Find("EnemyCanvas").transform.Find("EnemyHealthBar").gameObject.GetComponent<RectTransform>();
+        enemyCanvas = this.transform.Find("EnemyCanvas").gameObject;
+        healthBarMaxWidth = enemyHealthBar.rect.width;
+		healthBarCurrWidth = healthBarMaxWidth;
+
         if (enemyType == EnemyType.Basic)
         {
             stats.SetMaxHealth(Constants.BASIC_ENEMY_HEALTH);
@@ -55,6 +65,8 @@ public class EnemyController : MonoBehaviour
         }
 
         destSetter.target = player.transform;
+
+        
     }
 
     // Update is called once per frame
@@ -72,6 +84,8 @@ public class EnemyController : MonoBehaviour
             moveEnemy();
 
         }
+
+        UpdateHealthBar();
 
     }
 
@@ -135,6 +149,19 @@ public class EnemyController : MonoBehaviour
         destLerp.SearchPath();
 
         
+    }
+
+    private void UpdateHealthBar(){
+
+        if(stats.GetHealth() >= stats.GetMaxHealth()){
+            enemyCanvas.SetActive(false);
+        }else if(stats.GetHealth() < stats.GetMaxHealth() && !enemyCanvas.activeInHierarchy){
+            enemyCanvas.SetActive(true);
+        }
+
+        healthBarCurrWidth = MathG.Mapping.Map(stats.GetHealth(), 0f, stats.GetMaxHealth(), 0, healthBarMaxWidth);
+
+		enemyHealthBar.sizeDelta = new Vector2(healthBarCurrWidth, 0.15f);
     }
 
 
