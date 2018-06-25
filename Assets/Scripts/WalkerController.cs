@@ -60,12 +60,20 @@ public class WalkerController : MonoBehaviour
     public void InitializeValues(){
         SetLifetime(35);
 		SetChildChance(0.7f);
+        
+        
+        
     }
 
 	//Primary functions for creating the dungeon floors
     public void DrawPaths()
     {
         int lifeCounter = 0;
+        if (type == WalkerType.Main)
+        {
+            Player.transform.position = this.transform.position;
+        }
+        
 
         while (lifeCounter <= lifetime)
         {
@@ -137,7 +145,7 @@ public class WalkerController : MonoBehaviour
             if (lifeCounter == lifetime)
             {
                 if(type == WalkerType.Main) {
-                    Player.transform.position = this.transform.position;
+                    TheGreatCreator.PlaceExit(this.transform);
                 }
                 if(type == WalkerType.Child) 
                 {

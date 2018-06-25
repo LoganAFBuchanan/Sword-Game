@@ -13,6 +13,7 @@ public class MapCreation : MonoBehaviour
     public GameObject MainWalker;
     public GameObject Enemy;
     public GameObject Tile;
+    public GameObject Exit;
 
     public GameObject EnemyList;
 
@@ -42,12 +43,16 @@ public class MapCreation : MonoBehaviour
 
         if (Input.GetButtonDown("ResetMap"))
         {
-            ClearMap();
-            InitializeMap();
-            MainWalker.GetComponent<WalkerController>().DrawPaths();
-            AstarPath.active.Scan();
+            ResetMap();
         }
 
+    }
+
+    public void ResetMap(){
+        ClearMap();
+        InitializeMap();
+        MainWalker.GetComponent<WalkerController>().DrawPaths();
+        AstarPath.active.Scan();
     }
 
     private void InitializeMap()
@@ -135,5 +140,11 @@ public class MapCreation : MonoBehaviour
     {
         GameObject newEnemy = GameObject.Instantiate(Enemy, walkerPos);
         newEnemy.transform.parent = EnemyList.transform;
+    }
+
+    public void PlaceExit(Transform walkerPos){
+        GameObject newExit = GameObject.Instantiate(Exit, walkerPos);
+        newExit.transform.parent = GameObject.Find("Map_Creator").transform;
+        
     }
 }
