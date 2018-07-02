@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour {
 		stats.SetMaxHealth(Constants.PLAYER_STARTING_HEALTH);
 		stats.SetHealth(stats.GetMaxHealth());
 		stats.SetDamage(Constants.PLAYER_STARTING_DAMAGE);
+
+		stats.currFloor = 1;
+		stats.sightRange = 7;
 		
 	}
 	

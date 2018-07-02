@@ -12,22 +12,27 @@ public class MapCreation : MonoBehaviour
     public GameObject Player;
     public GameObject MainWalker;
     public GameObject Enemy;
+    public GameObject Gold;
     public GameObject Tile;
     public GameObject Exit;
+    public GameObject Fog;
 
     public GameObject EnemyList;
+    public GameObject GoldList;
+    public GameObject FogList;
 
     private Transform mapTransform;
 
     public int mapWidth;
     public int mapHeight;
 
+    private bool generatingFlag;
+
     // Use this for initialization
     void Awake()
     {
         mapTransform = GetComponent<Transform>();
-
-
+        generatingFlag = false;
     }
 
     void Start()
@@ -44,15 +49,23 @@ public class MapCreation : MonoBehaviour
         if (Input.GetButtonDown("ResetMap"))
         {
             ResetMap();
+            
         }
 
     }
 
-    public void ResetMap(){
-        ClearMap();
-        InitializeMap();
-        MainWalker.GetComponent<WalkerController>().DrawPaths();
-        AstarPath.active.Scan();
+    public void ResetMap()
+    {
+
+        if (generatingFlag == false)
+        {
+            generatingFlag = true;
+            ClearMap();
+            InitializeMap();
+            MainWalker.GetComponent<WalkerController>().DrawPaths();
+            AstarPath.active.Scan();
+            generatingFlag = false;
+        }
     }
 
     private void InitializeMap()
@@ -65,14 +78,16 @@ public class MapCreation : MonoBehaviour
 
                 GameObject newWall = GameObject.Instantiate(Wall, mapTransform);
                 GameObject newTile = GameObject.Instantiate(Tile, mapTransform);
+                GameObject newFog = GameObject.Instantiate(Fog, FogList.transform);
 
                 newWall.transform.position = new Vector3(x, y, 0);
                 newTile.transform.position = new Vector3(x, y, 0);
+                newFog.transform.position = new Vector3(x, y, 0);
 
             }
         }
         //Set MainWalker to the middle of the map
-        MainWalker.transform.position = new Vector3(Mathf.RoundToInt(mapWidth / 2), Mathf.RoundToInt(mapHeight / 2));
+        MainWalker.transform.position = new Vector3(Mathf.RoundToInt(mapWidth / 2), Mathf.RoundToInt(mapHeight / 2), 0);
 
     }
 
@@ -98,6 +113,13 @@ public class MapCreation : MonoBehaviour
 
             GameObject.Destroy(child.gameObject);
 
+        }
+
+        foreach (Transform child in GoldList.transform){
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (Transform child in FogList.transform){
+            GameObject.Destroy(child.gameObject);
         }
 
         MainWalker.GetComponent<WalkerController>().InitializeValues();
@@ -142,9 +164,17 @@ public class MapCreation : MonoBehaviour
         newEnemy.transform.parent = EnemyList.transform;
     }
 
-    public void PlaceExit(Transform walkerPos){
-        GameObject newExit = GameObject.Instantiate(Exit, walkerPos);
-        newExit.transform.parent = GameObject.Find("Map_Creator").transform;
-        
+    public void PlaceGold(Transform walkerPos, int goldTier)
+    {
+        GameObject newGold = GameObject.Instantiate(Gold, walkerPos);
+        newGold.transform.parent = GoldList.transform;
+        newGold.GetComponent<GoldController>().SetValTier(goldTier);
+
+    }
+
+    public void PlaceExit(Transform walkerPos)
+    {
+        Exit.transform.position = walkerPos.position;
+
     }
 }

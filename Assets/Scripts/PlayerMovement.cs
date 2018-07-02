@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         {
             PlayerMove();
             gameControl.TurnEnd();
+            gameControl.UpdateFog();
         }
     }
 
@@ -85,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
                 moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0 && //Checks player's path
                 moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 1) //Checks Sword's path
             {
-                Debug.Log("Moving...");
+               // Debug.Log("Moving...");
                 StartCoroutine(moveController.move(transform, input));
                 swordPos.DragBehind(input);
 
@@ -97,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
                 (moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0 || moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 2) && //Checks player's path
                 moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0) //Checks Sword's path
             {
-                Debug.Log("Moving...");
+               // Debug.Log("Moving...");
                 StartCoroutine(moveController.move(transform, input));
             }
 

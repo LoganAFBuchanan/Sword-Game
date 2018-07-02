@@ -5,10 +5,12 @@ using UnityEngine;
 public class ExitController : MonoBehaviour {
 
 	private MapCreation mapScript;
+	private PlayerController playerControl;
 
 	// Use this for initialization
 	void Awake () {
 		mapScript = GameObject.Find("Map_Creator").GetComponent<MapCreation>();
+		playerControl = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
 	
 	// Update is called once per frame
@@ -16,10 +18,13 @@ public class ExitController : MonoBehaviour {
 		
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	void OnTriggerStay2D(Collider2D other)
     {
 		if(other.gameObject.layer == 11){
-			mapScript.ResetMap();
+			if(!other.GetComponent<MoveObject>().isMoving){
+				playerControl.stats.currFloor += 1;
+				mapScript.ResetMap();
+			}
 		}
 	}
 }

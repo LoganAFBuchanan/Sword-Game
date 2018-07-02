@@ -19,8 +19,8 @@ TagManager:
   - Player
   - Walker
   - Floor
-  - 
-  - 
+  - Item
+  - Fog
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
   - name: Test in front
     uniqueID: 1857959981
     locked: 0
+  - name: Item
+    uniqueID: 1983496655
+    locked: 0
   - name: Character
     uniqueID: 2028794371
     locked: 0
@@ -55,4 +58,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 3604559543
+    locked: 0
+  - name: Fog
+    uniqueID: 1491226839
     locked: 0

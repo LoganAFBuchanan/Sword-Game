@@ -61,12 +61,12 @@ public class MoveConfirmation : MonoBehaviour {
         //Store start position to move from, based on objects current transform position.
         Vector2 objectStart = movableObject.GetComponent<Transform>().position;
 
-        //Debug.Log("Moving from " + start);
+        ////Debug.Log("Moving from " + start);
 
         // Calculate end position based on the direction parameters passed in when calling Move.
         Vector2 objectEnd = objectStart + new Vector2(xDir, yDir);
 
-        //Debug.Log("Moving to " + end);
+        ////Debug.Log("Moving to " + end);
 
         //Disable the boxCollider so that linecast doesn't hit this object's own collider.
         movableObject.GetComponent<BoxCollider2D>().enabled = false;
@@ -75,8 +75,8 @@ public class MoveConfirmation : MonoBehaviour {
         objectHit = Physics2D.Linecast(objectStart, objectEnd, wallLayer);
 		
 
-		Debug.Log(movableObject + " is detecting walls with "+ objectHit.transform);
-		Debug.Log(swordCollider.enabled);
+		//Debug.Log(movableObject + " is detecting walls with "+ objectHit.transform);
+		//Debug.Log(swordCollider.enabled);
 		
         if(objectHit.transform != null){
 			foundObject = 1;
@@ -84,27 +84,27 @@ public class MoveConfirmation : MonoBehaviour {
 
 		
 		objectHit = Physics2D.Linecast(objectStart, objectEnd, swordLayer);
-		Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
+		//Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
 
-		Debug.Log(movableObject + " is detecting Swords with "+ objectHit.transform);
+		//Debug.Log(movableObject + " is detecting Swords with "+ objectHit.transform);
 
 		if(objectHit.transform != null){
 			foundObject = 2;
 		}
 
 		objectHit = Physics2D.Linecast(objectStart, objectEnd, playerLayer);
-		Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
+		//Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
 
-		Debug.Log(movableObject + " is detecting Players with "+ objectHit.transform);
+		//Debug.Log(movableObject + " is detecting Players with "+ objectHit.transform);
 
 		if(objectHit.transform != null){
 			foundObject = 3;
 		}
 
 		objectHit = Physics2D.Linecast(objectStart, objectEnd, enemyLayer);
-		Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
+		//Debug.DrawRay(objectStart, new Vector2(xDir, yDir), Color.green, 4.0f);
 
-		Debug.Log(movableObject + " is detecting Enemies with "+ objectHit.transform);
+		//Debug.Log(movableObject + " is detecting Enemies with "+ objectHit.transform);
 
 		if(objectHit.transform != null){
 			foundObject = 4;
@@ -131,7 +131,7 @@ public class MoveConfirmation : MonoBehaviour {
 		//Store start position to move from, based on objects current transform position.
 		Vector2 swordStart = swordTransform.position;
 
-        //Debug.Log("Moving from " + start);
+        ////Debug.Log("Moving from " + start);
 
         // Calculate end position based on the direction parameters passed in when calling Move.
 		Vector2 swordEndSide = swordStart + new Vector2(xDir, 0);
@@ -152,7 +152,7 @@ public class MoveConfirmation : MonoBehaviour {
 			swordEndDiag = swordStart + new Vector2(1, xDir);
 		}
 
-        //Debug.Log("Moving to " + end);
+        ////Debug.Log("Moving to " + end);
 
         //Disable the boxCollider so that linecast doesn't hit this object's own collider.
         playerCollider.enabled = false;
@@ -162,7 +162,7 @@ public class MoveConfirmation : MonoBehaviour {
         sideHit = Physics2D.Linecast(swordStart, swordEndSide, wallLayer);
 		diagHit = Physics2D.Linecast(swordStart, swordEndDiag, wallLayer);
 
-        //Debug.Log(hit);
+        ////Debug.Log(hit);
 
         //Re-enable boxCollider after linecast
         playerCollider.enabled = true;

@@ -22,5 +22,9 @@ public static class Constants {
 	public static int WALL_DAMAGE = 1;
 
 	//MAP GENERATION VALUES
-	public static int START_ROOM_SIZE = 1;
+	public static int START_ROOM_SIZE = 2;
+	public static int END_ROOM_SIZE = 1;
+
+	public static float MID_GOLD_CHANCE = 0.15f;
+	public static float HIGH_GOLD_CHANCE = 0.05f;
 }

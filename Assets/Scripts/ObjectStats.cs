@@ -10,7 +10,11 @@ public class ObjectStats : MonoBehaviour {
 	private int health;
 	private int damage;
 
+	public int sightRange;
+
 	[System.NonSerialized] public int goldCount;
+	[System.NonSerialized] public int currFloor;
+	
 
 
 	// Use this for initialization

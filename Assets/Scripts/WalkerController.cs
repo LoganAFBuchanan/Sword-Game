@@ -11,7 +11,7 @@ public class WalkerController : MonoBehaviour
 	//CHILD walkers have reduced lifespans and can spawn their own CHILD walkers; but it's pretty unlikely.
 
     public GameObject ChildWalker;
-    public GameObject Player;
+    private GameObject Player;
     
 
     public enum WalkerType
@@ -26,6 +26,7 @@ public class WalkerController : MonoBehaviour
     private MapCreation TheGreatCreator;
     private int lifetime;
     private float childSpawnChance;
+    private float goldSpawnChance;
 
     private GameObject MainWalker;
 
@@ -60,18 +61,20 @@ public class WalkerController : MonoBehaviour
     public void InitializeValues(){
         SetLifetime(35);
 		SetChildChance(0.7f);
-        
-        
-        
+        SetGoldChance(0.02f);
+        Player = GameObject.Find("Player");
     }
 
 	//Primary functions for creating the dungeon floors
     public void DrawPaths()
-    {
+    {   
+        
         int lifeCounter = 0;
         if (type == WalkerType.Main)
         {
-            Player.transform.position = this.transform.position;
+            Debug.Log("GENERATING");
+            TheGreatCreator.ClearRoom(this.transform, Constants.START_ROOM_SIZE);
+            Player.GetComponent<BoxCollider2D>().enabled = false;
         }
         
 
@@ -86,7 +89,7 @@ public class WalkerController : MonoBehaviour
 			//Assures that the walker doesn't move back and forth on one spot
             while (dir == previousDir)
             {
-                Debug.Log("WHOOPS TRY AGAIN!");
+                //Debug.Log("WHOOPS TRY AGAIN!");
                 dir = Mathf.RoundToInt(Random.Range(0.0f, 3.0f));
             }
 
@@ -121,18 +124,29 @@ public class WalkerController : MonoBehaviour
 
 
             float spawnRoll = Random.Range(0.0f, 1.0f);
+            float goldRoll = Random.Range(0.0f, 1.0f);
 
             if(spawnRoll <= childSpawnChance){
 
                 int childLife = Mathf.RoundToInt((lifetime-lifeCounter) * 0.8f);
                 float newChildChance = childSpawnChance * 0.2f;
 
-                InstantiateChildWalker(childLife, newChildChance);
+                InstantiateChildWalker(childLife, newChildChance, goldSpawnChance * 1.05f);
 
+            }
+
+            if(goldRoll <= goldSpawnChance){
+
+                float goldValRoll = Random.Range(0f,1f);
+                int goldType = 0; 
+                if(goldValRoll <= Constants.MID_GOLD_CHANCE) goldType = 1;
+                if(goldValRoll <= Constants.HIGH_GOLD_CHANCE) goldType = 2;
+                TheGreatCreator.PlaceGold(this.transform, goldType);
             }
 
             lifeCounter++;
             childSpawnChance *= 0.8f;
+            goldSpawnChance *= 1.05f;
 
             // //TEST STUFF
             // if(type == WalkerType.Main) {
@@ -146,6 +160,7 @@ public class WalkerController : MonoBehaviour
             {
                 if(type == WalkerType.Main) {
                     TheGreatCreator.PlaceExit(this.transform);
+                    TheGreatCreator.ClearRoom(this.transform, Constants.END_ROOM_SIZE);
                 }
                 if(type == WalkerType.Child) 
                 {
@@ -153,12 +168,18 @@ public class WalkerController : MonoBehaviour
                     TheGreatCreator.PlaceEnemy(this.transform);
                 }
 
-                TheGreatCreator.ClearRoom(this.transform, Constants.START_ROOM_SIZE);
+                
             }
+        }
+
+        if (type == WalkerType.Main)
+        {
+            Player.transform.position = new Vector3(TheGreatCreator.mapWidth/2, TheGreatCreator.mapHeight/2, 0);
+            Player.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
 
-	private void InstantiateChildWalker(int life, float spawnChance){
+	private void InstantiateChildWalker(int life, float spawnChance, float goldChance){
 
 		GameObject newChild = GameObject.Instantiate(ChildWalker, this.transform);
 		WalkerController newChildScript = newChild.GetComponent<WalkerController>();
@@ -167,6 +188,7 @@ public class WalkerController : MonoBehaviour
 
 		newChildScript.SetLifetime(life);
 		newChildScript.SetChildChance(spawnChance);
+        newChildScript.goldSpawnChance = goldChance;
 
 		newChildScript.DrawPaths();
 
@@ -178,6 +200,10 @@ public class WalkerController : MonoBehaviour
 
 	public void SetChildChance(float input){
 		childSpawnChance = input;
+	}
+
+    public void SetGoldChance(float input){
+		goldSpawnChance = input;
 	}
 
 

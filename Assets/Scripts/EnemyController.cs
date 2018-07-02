@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour
 
         if (stats.GetHealth() <= 0)
         {
-            Debug.Log(this.gameObject + " HAS DIED");
+            //Debug.log(this.gameObject + " HAS DIED");
             this.gameObject.SetActive(false);
         }
 
@@ -94,12 +94,12 @@ public class EnemyController : MonoBehaviour
     public void moveEnemy()
     {
         destLerp.MovementUpdate(Time.deltaTime, out destVector, out destQuad);
-        Debug.Log("EnemyTransform: " + enemyTransform.position);
-        Debug.Log(destVector);
+        //Debug.log("EnemyTransform: " + enemyTransform.position);
+        //Debug.log(destVector);
 
         Vector2 moveVector = destVector - enemyTransform.position;
 
-        Debug.Log(moveVector.normalized);
+        //Debug.log(moveVector.normalized);
 
         if (Mathf.Abs(moveVector.x) > Mathf.Abs(moveVector.y))
         {
@@ -168,7 +168,7 @@ public class EnemyController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         //gameCamera.startFreeze(0.05f);
-        Debug.Log("COLLISION WITH " + other.gameObject.name);
+        //Debug.log("COLLISION WITH " + other.gameObject.name);
 
         //Collision with sword
         if (other.gameObject.layer == 9 && !moveScript.isMoving)
@@ -180,12 +180,12 @@ public class EnemyController : MonoBehaviour
                 int damage = parent.GetComponent<ObjectStats>().GetDamage();
                 stats.ChangeHealth(-damage);
 
-                Debug.Log(this.gameObject.name + "'s current health is " + stats.GetHealth());
+                //Debug.log(this.gameObject.name + "'s current health is " + stats.GetHealth());
             }
 
 
             Vector3 direction = other.transform.position - enemyTransform.position;
-            Debug.Log("This is the difference vector" + direction);
+            //Debug.log("This is the difference vector" + direction);
             if (direction.x > 0 && Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))
             {
                 print("Right?");
@@ -221,7 +221,7 @@ public class EnemyController : MonoBehaviour
 
             other.gameObject.SetActive(false);
 
-            Debug.Log(this.gameObject.name + "'s current health is " + stats.GetHealth());
+            //Debug.log(this.gameObject.name + "'s current health is " + stats.GetHealth());
 
         }
 
@@ -232,7 +232,7 @@ public class EnemyController : MonoBehaviour
 
             MoveObject otherScript = other.gameObject.GetComponent<MoveObject>();
 
-            Debug.Log("This is the difference vector" + direction);
+            //Debug.log("This is the difference vector" + direction);
             if (!otherScript.isMoving)
             {
                 if (direction.x > 0 && Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))

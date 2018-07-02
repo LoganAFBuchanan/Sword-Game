@@ -5,8 +5,11 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
 	private GameObject enemyList;
+	private GameObject fogList;
 	private GameObject player;
 	private PlayerController playerControl;
+
+
 
 
 
@@ -14,22 +17,36 @@ public class GameController : MonoBehaviour {
 	void Awake () {
 		
 		enemyList = GameObject.Find("EnemyList");
+		fogList = GameObject.Find("FogList");
 		player = GameObject.Find("Player");
 
 		playerControl = player.GetComponent<PlayerController>();
 
 	}
+
+	void Start(){
+		UpdateFog();
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(player.GetComponent<MoveObject>().isMoving){
+			UpdateFog();
+		}
 	}
 
 	//This is where all enemy and passive updates will occur
 	public void TurnEnd(){
 
+		UpdateFog();
 		StartCoroutine(MoveEnemies());
 
+	}
+
+	public void UpdateFog(){
+		foreach(Transform fog in fogList.transform){
+			fog.gameObject.GetComponent<FogController>().changeOpacity();
+		}
 	}
 
 
@@ -42,7 +59,7 @@ public class GameController : MonoBehaviour {
 			if(enemy.gameObject.activeInHierarchy){
 			EnemyController enemyScript = enemy.gameObject.GetComponent<EnemyController>();
 			enemyScript.moveEnemy();
-			yield return new WaitForSeconds(0.1f);
+			//yield return new WaitForSeconds(0.1f);
 			}
 
 		}

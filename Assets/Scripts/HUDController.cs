@@ -9,6 +9,9 @@ public class HUDController : MonoBehaviour {
 	private RectTransform healthBar;
 	private Text healthText;
 
+	private Text GoldText;
+	private Text FloorText;
+
 	private PlayerController playerControl;
 
 	private float healthBarMaxWidth;
@@ -18,6 +21,9 @@ public class HUDController : MonoBehaviour {
 	void Awake () {
 		healthBar = GameObject.Find("PlayerHealthBar").GetComponent<RectTransform>();
 		healthText = GameObject.Find("PlayerHealthText").GetComponent<Text>();
+
+		GoldText = GameObject.Find("PlayerGoldText").GetComponent<Text>();
+		FloorText = GameObject.Find("PlayerFloorText").GetComponent<Text>();
 
 		playerControl = GameObject.Find("Player").GetComponent<PlayerController>();
 
@@ -30,6 +36,8 @@ public class HUDController : MonoBehaviour {
 	void Update () {
 		
 		UpdateHealthBar();
+		UpdateGoldText();
+		UpdateFloorText();
 
 	}
 
@@ -40,5 +48,13 @@ public class HUDController : MonoBehaviour {
 
 		healthBar.sizeDelta = new Vector2(healthBarCurrWidth, 25);
 
+	}
+
+	public void UpdateGoldText(){
+		GoldText.text = "Gold: " + playerControl.stats.goldCount;
+	}
+
+	public void UpdateFloorText(){
+		FloorText.text = "Floor: " + playerControl.stats.currFloor;
 	}
 }
