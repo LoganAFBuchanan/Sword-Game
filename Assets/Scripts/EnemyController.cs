@@ -31,7 +31,7 @@ public class EnemyController : MonoBehaviour
     public enum EnemyType
     {
         Basic,
-        Advanced
+        Dragon
     };
 
     public EnemyType enemyType;
@@ -57,16 +57,29 @@ public class EnemyController : MonoBehaviour
         healthBarMaxWidth = enemyHealthBar.rect.width;
 		healthBarCurrWidth = healthBarMaxWidth;
 
+        InitializeValues();
+
+    
+
+        destSetter.target = player.transform;
+
+        
+    }
+
+    public void InitializeValues(){
         if (enemyType == EnemyType.Basic)
         {
             stats.SetMaxHealth(Constants.BASIC_ENEMY_HEALTH);
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.BASIC_ENEMY_DAMAGE);
         }
-
-        destSetter.target = player.transform;
-
-        
+        if (enemyType == EnemyType.Dragon)
+        {
+            stats.SetMaxHealth(Constants.DRAGON_ENEMY_HEALTH);
+            stats.SetHealth(stats.GetMaxHealth());
+            stats.SetDamage(Constants.DRAGON_ENEMY_DAMAGE);
+            stats.atkRange = Constants.DRAGON_ENEMY_RANGE;
+        }
     }
 
     // Update is called once per frame
@@ -84,7 +97,7 @@ public class EnemyController : MonoBehaviour
             moveEnemy();
 
         }
-
+        
         UpdateHealthBar();
 
     }
@@ -163,6 +176,8 @@ public class EnemyController : MonoBehaviour
 
 		enemyHealthBar.sizeDelta = new Vector2(healthBarCurrWidth, 0.15f);
     }
+
+    
 
 
     void OnTriggerEnter2D(Collider2D other)

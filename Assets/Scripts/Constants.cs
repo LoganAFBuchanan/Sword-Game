@@ -19,6 +19,10 @@ public static class Constants {
 	public static int BASIC_ENEMY_HEALTH = 3;
 	public static int BASIC_ENEMY_DAMAGE = 1;
 
+	public static int DRAGON_ENEMY_HEALTH = 5;
+	public static int DRAGON_ENEMY_DAMAGE = 2;
+	public static int DRAGON_ENEMY_RANGE = 2;
+
 	public static int WALL_DAMAGE = 1;
 
 	//MAP GENERATION VALUES

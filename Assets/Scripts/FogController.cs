@@ -31,29 +31,46 @@ public class FogController : MonoBehaviour
         if (Vector3.Distance(this.transform.position, playerTransform.position) >= playerTransform.gameObject.GetComponent<PlayerController>().stats.sightRange)
         {
             GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
-			
+
         }
         else if (Vector3.Distance(this.transform.position, playerTransform.position) >= playerTransform.gameObject.GetComponent<PlayerController>().stats.sightRange - 1)
         {
             GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.66f);
-			
+
         }
         else if (Vector3.Distance(this.transform.position, playerTransform.position) >= playerTransform.gameObject.GetComponent<PlayerController>().stats.sightRange - 2)
         {
             GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.33f);
-			
+
         }
         else
         {
-
             GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-			
+        }
+
+        if (Vector3.Distance(this.transform.position, playerTransform.position) <= playerTransform.gameObject.GetComponent<PlayerController>().stats.sightRange)
+        {
+
+            if (checkWalls() == 1)
+            {
+                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.33f);
+            }
+
+            if (checkWalls() == 2)
+            {
+                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.66f);
+            }
+
+            if (checkWalls() > 2)
+            {
+                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
+            }
         }
     }
 
     public int checkWalls()
     {
-		RaycastHit2D[] objectHit = Physics2D.LinecastAll(this.transform.position, playerTransform.position, wallLayer);
+        RaycastHit2D[] objectHit = Physics2D.LinecastAll(this.transform.position, playerTransform.position, wallLayer);
         // if (objectHit.Length > 2)
         // {
         //     GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
@@ -65,6 +82,6 @@ public class FogController : MonoBehaviour
         //     return;
         // }
 
-		return objectHit.Length;
+        return objectHit.Length;
     }
 }

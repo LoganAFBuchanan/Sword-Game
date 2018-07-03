@@ -39,11 +39,13 @@ public class GameController : MonoBehaviour {
 	public void TurnEnd(){
 
 		UpdateFog();
+		AstarPath.active.Scan();
 		StartCoroutine(MoveEnemies());
 
 	}
 
 	public void UpdateFog(){
+		//Debug.Log("Updating Fog");
 		foreach(Transform fog in fogList.transform){
 			fog.gameObject.GetComponent<FogController>().changeOpacity();
 		}

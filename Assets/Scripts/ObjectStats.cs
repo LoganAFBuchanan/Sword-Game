@@ -12,6 +12,8 @@ public class ObjectStats : MonoBehaviour {
 
 	public int sightRange;
 
+	public int atkRange {get; set;}
+
 	[System.NonSerialized] public int goldCount;
 	[System.NonSerialized] public int currFloor;
 	
