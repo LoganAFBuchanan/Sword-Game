@@ -28,6 +28,8 @@ public class EnemyController : MonoBehaviour
     private float healthBarMaxWidth;
     private float healthBarCurrWidth;
 
+    private bool attackWait;
+
     public enum EnemyType
     {
         Basic,
@@ -55,18 +57,17 @@ public class EnemyController : MonoBehaviour
         enemyHealthBar = this.transform.Find("EnemyCanvas").transform.Find("EnemyHealthBar").gameObject.GetComponent<RectTransform>();
         enemyCanvas = this.transform.Find("EnemyCanvas").gameObject;
         healthBarMaxWidth = enemyHealthBar.rect.width;
-		healthBarCurrWidth = healthBarMaxWidth;
+        healthBarCurrWidth = healthBarMaxWidth;
 
         InitializeValues();
 
-    
-
         destSetter.target = player.transform;
 
-        
+
     }
 
-    public void InitializeValues(){
+    public void InitializeValues()
+    {
         if (enemyType == EnemyType.Basic)
         {
             stats.SetMaxHealth(Constants.BASIC_ENEMY_HEALTH);
@@ -79,6 +80,7 @@ public class EnemyController : MonoBehaviour
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.DRAGON_ENEMY_DAMAGE);
             stats.atkRange = Constants.DRAGON_ENEMY_RANGE;
+            attackWait = false;
         }
     }
 
@@ -97,12 +99,12 @@ public class EnemyController : MonoBehaviour
             moveEnemy();
 
         }
-        
+
         UpdateHealthBar();
 
     }
 
-    
+
 
     public void moveEnemy()
     {
@@ -161,24 +163,69 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(moveScript.move(enemyTransform, moveVector));
         destLerp.SearchPath();
 
-        
+
     }
 
-    private void UpdateHealthBar(){
+    public void enemyDecision()
+    {
 
-        if(stats.GetHealth() >= stats.GetMaxHealth()){
+        switch (enemyType)
+        {
+            case EnemyType.Basic:
+                moveEnemy();
+                break;
+            case EnemyType.Dragon:
+                if (attackWait)
+                {
+                    //Fire breath!!!
+                    //Create another function that spawns firebreath or whatever
+                    attackWait = false;
+                }
+                else if (checkRange(player.gameObject.layer))
+                { //Check if the player is in range
+                    //Make enemy flash here
+                    attackWait = true;
+
+                }
+                else
+                {
+                    moveEnemy(); //If player is not in range and not waiting to attack then simply move
+                }
+                break;
+        }
+
+
+
+    }
+
+    private void UpdateHealthBar()
+    {
+
+        if (stats.GetHealth() >= stats.GetMaxHealth())
+        {
             enemyCanvas.SetActive(false);
-        }else if(stats.GetHealth() < stats.GetMaxHealth() && !enemyCanvas.activeInHierarchy){
+        }
+        else if (stats.GetHealth() < stats.GetMaxHealth() && !enemyCanvas.activeInHierarchy)
+        {
             enemyCanvas.SetActive(true);
         }
 
         healthBarCurrWidth = MathG.Mapping.Map(stats.GetHealth(), 0f, stats.GetMaxHealth(), 0, healthBarMaxWidth);
 
-		enemyHealthBar.sizeDelta = new Vector2(healthBarCurrWidth, 0.15f);
+        enemyHealthBar.sizeDelta = new Vector2(healthBarCurrWidth, 0.15f);
     }
 
-    
 
+    private bool checkRange(LayerMask target)
+    {
+
+        //Use raycasts along the four cardinal directions and check the player layer mask
+        //Use raycast all to detect walls if any walls are detected then return false
+        //If hit return true
+
+        return false;
+
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
