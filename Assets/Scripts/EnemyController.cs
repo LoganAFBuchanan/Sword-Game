@@ -29,6 +29,9 @@ public class EnemyController : MonoBehaviour
     private float healthBarCurrWidth;
 
     private bool attackWait;
+    private int playerDirection;
+
+    private LayerMask wallLayer;
 
     public enum EnemyType
     {
@@ -63,7 +66,7 @@ public class EnemyController : MonoBehaviour
 
         destSetter.target = player.transform;
 
-
+        wallLayer = 8;
     }
 
     public void InitializeValues()
@@ -222,6 +225,55 @@ public class EnemyController : MonoBehaviour
         //Use raycasts along the four cardinal directions and check the player layer mask
         //Use raycast all to detect walls if any walls are detected then return false
         //If hit return true
+
+        bool playerDetected = false;
+        Vector3 detectedVector = new Vector3(0, 0, 0);
+        
+
+        Vector3 direction;
+        RaycastHit2D checkForPlayer;
+        
+        //Up
+        direction = new Vector3(0, stats.atkRange, 0);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, player.layer);
+        if(checkForPlayer.transform != null){
+			playerDetected = true;
+            playerDirection = 0;
+            detectedVector = direction;
+		}
+        
+        //Right
+        direction = new Vector3(stats.atkRange, 0, 0);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, player.layer);
+        if(checkForPlayer.transform != null){
+			playerDetected = true;
+            playerDirection = 1;
+            detectedVector = direction;
+		}
+
+        //Down
+        direction = new Vector3(0, -stats.atkRange, 0);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, player.layer);
+        if(checkForPlayer.transform != null){
+			playerDetected = true;
+            playerDirection = 2;
+            detectedVector = direction;
+		}
+
+        //Left
+        direction = new Vector3(-stats.atkRange, 0, 0);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, player.layer);
+        if(checkForPlayer.transform != null){
+			playerDetected = true;
+            playerDirection = 3;
+            detectedVector = direction;
+		}
+
+        if(playerDetected){
+            RaycastHit2D[] objectHit = Physics2D.LinecastAll(this.transform.position, this.transform.position + detectedVector, wallLayer);
+            //Check array and if a wall is detected before a player break and return false, otherwise return true
+        }
+        
 
         return false;
 
