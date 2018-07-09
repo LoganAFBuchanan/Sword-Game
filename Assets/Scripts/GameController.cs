@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour {
 			if(enemy.gameObject.activeInHierarchy){
 			EnemyController enemyScript = enemy.gameObject.GetComponent<EnemyController>();
 			
-			enemyScript.moveEnemy();
+			enemyScript.enemyDecision();
 			//yield return new WaitForSeconds(0.1f);
 			}
 

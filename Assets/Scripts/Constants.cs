@@ -21,7 +21,7 @@ public static class Constants {
 
 	public static int DRAGON_ENEMY_HEALTH = 5;
 	public static int DRAGON_ENEMY_DAMAGE = 2;
-	public static int DRAGON_ENEMY_RANGE = 2;
+	public static int DRAGON_ENEMY_RANGE = 3;
 
 	public static int WALL_DAMAGE = 1;
 
