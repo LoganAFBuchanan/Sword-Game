@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
     private int playerDirection;
 
     private LayerMask wallLayer;
+    private RaycastHit2D playerHit;
 
     public enum EnemyType
     {
@@ -184,7 +185,7 @@ public class EnemyController : MonoBehaviour
                     //Create another function that spawns firebreath or whatever
                     attackWait = false;
                 }
-                else if (checkRange(player.gameObject.layer))
+                else if (checkRange(player.gameObject.layer, out playerHit))
                 { //Check if the player is in range
                     //Make enemy flash here
                     attackWait = true;
@@ -219,7 +220,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    private bool checkRange(LayerMask target)
+    private bool checkRange(LayerMask target, out RaycastHit2D checkForPlayer)
     {
 
         //Use raycasts along the four cardinal directions and check the player layer mask
@@ -227,63 +228,70 @@ public class EnemyController : MonoBehaviour
         //If hit return true
 
         bool playerDetected = false;
-        Vector3 detectedVector = new Vector3(0, 0, 0);
+        Vector3 detectedVector = new Vector2(0, 0);
 
-        Debug.Log("Checking Range");
+
+
+        //Debug.Log("Checking Range");
+        //Debug.Log("Target = " + target.value);
         
 
         Vector3 direction;
-        RaycastHit2D checkForPlayer;
+
+        enemyBoxCollider.enabled = false;
+        
         
         //Up
-        direction = new Vector3(0, stats.atkRange, 0);
-        Debug.Log("This Enemies Position: " + this.transform.position);
-        Debug.Log("This Enemies Direction: " + direction);
-        Debug.Log("Added Together: " + (this.transform.position + direction));
+        direction = new Vector2(0, stats.atkRange * Constants.GRIDSIZE);
+        
         Debug.DrawRay(this.transform.position, direction, Color.red, 4.0f);
-        checkForPlayer = Physics2D.Linecast(this.transform.position, direction, player.layer);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, target);
         if(checkForPlayer.transform != null){
+            Debug.Log("Player detected Up!");
 			playerDetected = true;
             playerDirection = 0;
             detectedVector = direction;
 		}
         
         //Right
-        direction = new Vector3(stats.atkRange, 0, 0);
+        direction = new Vector2(stats.atkRange * Constants.GRIDSIZE, 0);
         Debug.DrawRay(this.transform.position, direction, Color.red, 4.0f);
-        checkForPlayer = Physics2D.Linecast(this.transform.position, direction, player.layer);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, target);
         if(checkForPlayer.transform != null){
+            Debug.Log("Player detected Right!");
 			playerDetected = true;
             playerDirection = 1;
             detectedVector = direction;
 		}
 
         //Down
-        direction = new Vector3(0, -stats.atkRange, 0);
+        direction = new Vector2(0, -stats.atkRange * Constants.GRIDSIZE);
         Debug.DrawRay(this.transform.position, direction, Color.red, 4.0f);
-        checkForPlayer = Physics2D.Linecast(this.transform.position, direction, player.layer);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, target);
         if(checkForPlayer.transform != null){
+            Debug.Log("Player detected Down!");
 			playerDetected = true;
             playerDirection = 2;
             detectedVector = direction;
 		}
 
         //Left
-        direction = new Vector3(-stats.atkRange, 0, 0);
+        direction = new Vector2(-stats.atkRange * Constants.GRIDSIZE, 0);
         Debug.DrawRay(this.transform.position, direction, Color.red, 4.0f);
-        checkForPlayer = Physics2D.Linecast(this.transform.position, direction, player.layer);
+        checkForPlayer = Physics2D.Linecast(this.transform.position, this.transform.position + direction, target);
         if(checkForPlayer.transform != null){
+            Debug.Log("Player detected Left!");
 			playerDetected = true;
             playerDirection = 3;
             detectedVector = direction;
 		}
 
-        
+        enemyBoxCollider.enabled = true;
 
         if(playerDetected){
             RaycastHit2D[] objectHit = Physics2D.LinecastAll(this.transform.position, this.transform.position + detectedVector, wallLayer);
             //Check array and if a wall is detected before a player break and return false, otherwise return true
-
+            Debug.Log("PLAYER FOUND");
             Debug.Log(objectHit);
         }
         

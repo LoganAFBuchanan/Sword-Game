@@ -243,6 +243,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114007294501852114, guid: de6916280c91a454881dd2f1c6896a05,
+        type: 2}
+      propertyPath: playerLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: de6916280c91a454881dd2f1c6896a05, type: 2}
   m_IsPrefabParent: 0
@@ -833,11 +838,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114751424452148606, guid: 50d4c295164a30844bf5a8fd2c73979b,
-        type: 2}
-      propertyPath: enemyType
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50d4c295164a30844bf5a8fd2c73979b, type: 2}
   m_IsPrefabParent: 0
@@ -856,7 +856,7 @@ Prefab:
     - target: {fileID: 224433985412911256, guid: d8c74dcfc8afe9b4aa2866b6bccf2070,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 177.5
+      value: 538
       objectReference: {fileID: 0}
     - target: {fileID: 224433985412911256, guid: d8c74dcfc8afe9b4aa2866b6bccf2070,
         type: 2}
