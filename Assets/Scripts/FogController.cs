@@ -16,6 +16,7 @@ public class FogController : MonoBehaviour
     {
         spriteColor = GetComponent<SpriteRenderer>().color;
         playerTransform = GameObject.Find("Player").transform;
+        GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
     }
 
     // Update is called once per frame

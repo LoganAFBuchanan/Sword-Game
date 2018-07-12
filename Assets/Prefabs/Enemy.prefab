@@ -95,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1161340377711402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224808971840400140}
@@ -294,7 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fb17520a2197a4cad64797125028c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 1
+  basicSprite: {fileID: 21300236, guid: f67e0a6140057a94091bd809e1ad08f4, type: 3}
+  dragonSprite: {fileID: 21300128, guid: f67e0a6140057a94091bd809e1ad08f4, type: 3}
+  enemyType: 0
 --- !u!114 &114819313132167536
 MonoBehaviour:
   m_ObjectHideFlags: 1

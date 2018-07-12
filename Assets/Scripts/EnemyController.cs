@@ -34,6 +34,10 @@ public class EnemyController : MonoBehaviour
     private LayerMask wallLayer;
     private RaycastHit2D[] playerHit;
 
+    private SpriteRenderer spriteRender;
+    public Sprite basicSprite;
+    public Sprite dragonSprite;
+
     public enum EnemyType
     {
         Basic,
@@ -62,6 +66,8 @@ public class EnemyController : MonoBehaviour
         enemyCanvas = this.transform.Find("EnemyCanvas").gameObject;
         healthBarMaxWidth = enemyHealthBar.rect.width;
         healthBarCurrWidth = healthBarMaxWidth;
+
+        spriteRender = GetComponent<SpriteRenderer>();
         
 
         InitializeValues();
@@ -78,6 +84,7 @@ public class EnemyController : MonoBehaviour
             stats.SetMaxHealth(Constants.BASIC_ENEMY_HEALTH);
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.BASIC_ENEMY_DAMAGE);
+            spriteRender.sprite = basicSprite;
         }
         if (enemyType == EnemyType.Dragon)
         {
@@ -85,6 +92,7 @@ public class EnemyController : MonoBehaviour
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.DRAGON_ENEMY_DAMAGE);
             stats.atkRange = Constants.DRAGON_ENEMY_RANGE;
+            spriteRender.sprite = dragonSprite;
             attackWait = false;
         }
     }
@@ -184,6 +192,7 @@ public class EnemyController : MonoBehaviour
                 {
                     //Fire breath!!!
                     //Create another function that spawns firebreath or whatever
+                    Debug.Log("Enemy Breathes Fire now");
                     attackWait = false;
                 }
                 else if (checkRange(player.gameObject.layer, out playerHit))
@@ -251,11 +260,11 @@ public class EnemyController : MonoBehaviour
         checkEnd = checkStart + direction;
         checkForPlayer = Physics2D.LinecastAll(checkStart, checkEnd);
         //Check if player is in the linecast array here
-        if(checkForPlayer.Length != 0){
+        if(checkForPlayer.Length != 0 && CheckLineCastArray(checkForPlayer)){
             Debug.Log("Player detected Up!");
 			playerDetected = true;
             playerDirection = 0;
-            detectedVector = direction;
+            
 		}
         
         //Right
@@ -264,11 +273,11 @@ public class EnemyController : MonoBehaviour
         checkEnd = checkStart + direction;
         checkForPlayer = Physics2D.LinecastAll(checkStart, checkEnd);
         //Check if player is in the linecast array here
-        if(checkForPlayer.Length != 0){
+        if(checkForPlayer.Length != 0 && CheckLineCastArray(checkForPlayer)){
             Debug.Log("Player detected Right!");
 			playerDetected = true;
             playerDirection = 1;
-            detectedVector = direction;
+            
 		}
 
         //Down
@@ -277,11 +286,11 @@ public class EnemyController : MonoBehaviour
         checkEnd = checkStart + direction;
         checkForPlayer = Physics2D.LinecastAll(checkStart, checkEnd);
         //Check if player is in the linecast array here
-        if(checkForPlayer.Length != 0){
+        if(checkForPlayer.Length != 0 && CheckLineCastArray(checkForPlayer)){
             Debug.Log("Player detected Down!");
 			playerDetected = true;
             playerDirection = 2;
-            detectedVector = direction;
+            
 		}
 
         //Left
@@ -290,22 +299,18 @@ public class EnemyController : MonoBehaviour
         checkEnd = checkStart + direction;
         checkForPlayer = Physics2D.LinecastAll(checkStart, checkEnd);
         //Check if player is in the linecast array here
-        if(checkForPlayer.Length != 0){
+        if(checkForPlayer.Length != 0 && CheckLineCastArray(checkForPlayer)){
             Debug.Log("Player detected Left!");
             Debug.Log(checkForPlayer[0].transform.gameObject.layer);
 			playerDetected = true;
             playerDirection = 3;
-            detectedVector = direction;
+            
 		}
 
         enemyBoxCollider.enabled = true;
 
         if(playerDetected){
-            checkEnd = checkStart + detectedVector;
-            RaycastHit2D[] objectHit = Physics2D.LinecastAll(checkStart, checkEnd, wallLayer);
-            //Check array and if a wall is detected before a player break and return false, otherwise return true
             Debug.Log("PLAYER FOUND");
-            Debug.Log(objectHit);
             return true;
         }
         
@@ -411,5 +416,19 @@ public class EnemyController : MonoBehaviour
             }
 
         }
+    }
+
+    private bool CheckLineCastArray(RaycastHit2D[] array){
+
+        for(int i = 0; i < array.Length; i++){
+            if(array[i].transform.gameObject.layer == wallLayer){
+                return false;
+            }
+            if(array[i].transform.gameObject.layer == player.layer){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
