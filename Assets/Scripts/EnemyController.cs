@@ -46,6 +46,8 @@ public class EnemyController : MonoBehaviour
 
     public EnemyType enemyType;
 
+    public GameObject fire;
+
     // Use this for initialization
     void Awake()
     {
@@ -192,6 +194,7 @@ public class EnemyController : MonoBehaviour
                 {
                     //Fire breath!!!
                     //Create another function that spawns firebreath or whatever
+                    BreathFire(playerDirection);
                     Debug.Log("Enemy Breathes Fire now");
                     attackWait = false;
                 }
@@ -316,6 +319,42 @@ public class EnemyController : MonoBehaviour
         
 
         return false;
+
+    }
+
+    private void BreathFire(int dir){
+        
+        Vector3 distance = new Vector3(0,0);
+
+        switch(dir){
+
+            case 0:
+                distance = new Vector3(0, 1 * Constants.GRIDSIZE, 0);
+
+            break;
+
+            case 1:
+                distance = new Vector3(1 * Constants.GRIDSIZE, 0, 0);
+
+            break;
+
+            case 2:
+                distance = new Vector3(0, -1 * Constants.GRIDSIZE, 0);
+
+            break;
+
+            case 3:
+                distance = new Vector3(-1 * Constants.GRIDSIZE, 0, 0);
+
+            break;
+
+        }
+
+        for(int i = 1; i < stats.atkRange+1; i++){
+            GameObject newFire = Instantiate(fire, this.transform);
+            newFire.transform.position += distance * i;
+        }
+        return;
 
     }
 
