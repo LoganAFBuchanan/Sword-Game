@@ -55,14 +55,14 @@ public class GameController : MonoBehaviour {
 	IEnumerator MoveEnemies(){
 
 		playerControl.SetMoveWait(true);
-		yield return new WaitForSeconds(0.1f);
+		//yield return new WaitForSeconds(0.1f);
 		foreach (Transform enemy in enemyList.transform)
         {
 			if(enemy.gameObject.activeInHierarchy){
 			EnemyController enemyScript = enemy.gameObject.GetComponent<EnemyController>();
 			
 			enemyScript.enemyDecision();
-			//yield return new WaitForSeconds(0.1f);
+			yield return new WaitUntil(() => !enemyScript.moveScript.isMoving);
 			}
 
 		}

@@ -294,9 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fb17520a2197a4cad64797125028c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicSprite: {fileID: 21300236, guid: f67e0a6140057a94091bd809e1ad08f4, type: 3}
-  dragonSprite: {fileID: 21300128, guid: f67e0a6140057a94091bd809e1ad08f4, type: 3}
   enemyType: 0
+  fire: {fileID: 1910795493093948, guid: 72021c4c8e41d8d4a85dce2dfdd48ad1, type: 2}
 --- !u!114 &114819313132167536
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,7 +9,7 @@ public static class Constants {
 	public static float GRIDSIZE = 1f;
 	public static float MOVEFACTOR = 1f;
 
-	public static float MOVESPEED = 20f; //Move lerp speed of all (non-rotating) objects
+	public static float MOVESPEED = 15f; //Move lerp speed of all (non-rotating) objects
 
 	public static float MOVE_COOLDOWN = 0f;
 
@@ -18,10 +18,13 @@ public static class Constants {
 
 	public static int BASIC_ENEMY_HEALTH = 3;
 	public static int BASIC_ENEMY_DAMAGE = 1;
+	public static int BASIC_ENEMY_SPAWNCHANCE = 100;
+
 
 	public static int DRAGON_ENEMY_HEALTH = 5;
 	public static int DRAGON_ENEMY_DAMAGE = 2;
 	public static int DRAGON_ENEMY_RANGE = 3;
+	public static int DRAGON_ENEMY_SPAWNCHANCE = 15;
 
 	public static int WALL_DAMAGE = 1;
 

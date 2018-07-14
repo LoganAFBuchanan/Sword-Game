@@ -76,7 +76,6 @@ public class MoveConfirmation : MonoBehaviour {
 		
 
 		//Debug.Log(movableObject + " is detecting walls with "+ objectHit.transform);
-		//Debug.Log(swordCollider.enabled);
 		
         if(objectHit.transform != null){
 			foundObject = 1;

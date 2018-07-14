@@ -162,6 +162,16 @@ public class MapCreation : MonoBehaviour
     {
         GameObject newEnemy = GameObject.Instantiate(Enemy, walkerPos);
         newEnemy.transform.parent = EnemyList.transform;
+
+        int enemyRoll = Random.Range(0, 100);
+        Debug.Log(enemyRoll);
+
+        if(enemyRoll < Constants.DRAGON_ENEMY_SPAWNCHANCE){
+            newEnemy.GetComponent<EnemyController>().SetEnemyType("DRAGON");
+        }else{
+            newEnemy.GetComponent<EnemyController>().SetEnemyType("BASIC");
+        }
+        newEnemy.GetComponent<EnemyController>().InitializeValues();
     }
 
     public void PlaceGold(Transform walkerPos, int goldTier)

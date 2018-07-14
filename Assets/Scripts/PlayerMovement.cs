@@ -47,8 +47,8 @@ public class PlayerMovement : MonoBehaviour
         if (!moveController.isMoving && !playerControl.GetMoveWait() && (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
         {
             PlayerMove();
-            gameControl.TurnEnd();
-            gameControl.UpdateFog();
+            StartCoroutine(EndTurn());
+            
         }
     }
 
@@ -63,17 +63,24 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            int swordCheckResult = moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray);
+            int playerCheckResult = moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray);
+
+            Debug.Log("Player Check Result: " + playerCheckResult);
+            Debug.Log("Sword Check Result: " + swordCheckResult);
+
+
             //Move into wall with sword in front
             if (input != Vector2.zero && //Checks for player Input
-                moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 2 && //Checks player's path
-                moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 1) //Checks Sword's path
+                (playerCheckResult == 2 && //Checks player's path
+                swordCheckResult == 1) || playerCheckResult == 1) //Checks Sword's path
             {
                 return;
             }
             
             //Move into Enemy
             if (input != Vector2.zero && //Checks for player Input
-                moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 4) 
+                playerCheckResult == 4) 
             {
                 //May need to have the enemy deal damage here, however I need to somehow grab the enemies stats here to deal the correct amount of damage.
                 //Instead I am going to end the player's turn and have the enemy then move onto the player. Without this the player would be dealt damage twice.
@@ -83,8 +90,8 @@ public class PlayerMovement : MonoBehaviour
 
             //Move into open space with sword being blocked
             if (input != Vector2.zero && //Checks for player Input
-                moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0 && //Checks player's path
-                moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 1) //Checks Sword's path
+                playerCheckResult == 0 && //Checks player's path
+                swordCheckResult == 1) //Checks Sword's path
             {
                // Debug.Log("Moving...");
                 StartCoroutine(moveController.move(transform, input));
@@ -95,8 +102,8 @@ public class PlayerMovement : MonoBehaviour
 
             //Move into open space
             if (input != Vector2.zero && //Checks for player Input
-                (moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0 || moveConf.canMove(this.gameObject, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 2) && //Checks player's path
-                moveConf.canMove(playerSword, System.Math.Sign(input.x), System.Math.Sign(input.y), out ray) == 0) //Checks Sword's path
+                (playerCheckResult == 0 || playerCheckResult == 2) && //Checks player's path
+                swordCheckResult == 0 || swordCheckResult == 3 || swordCheckResult == 4) //Checks Sword's path
             {
                // Debug.Log("Moving...");
                 StartCoroutine(moveController.move(transform, input));
@@ -105,6 +112,12 @@ public class PlayerMovement : MonoBehaviour
             
 
             
+    }
+
+    IEnumerator EndTurn(){
+        yield return new WaitUntil(() => !moveController.isMoving);
+        gameControl.TurnEnd();
+        gameControl.UpdateFog();
     }
 
 

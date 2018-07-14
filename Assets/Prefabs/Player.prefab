@@ -40,12 +40,12 @@ GameObject:
   - component: {fileID: 4931100171027718}
   - component: {fileID: 212886954963009418}
   - component: {fileID: 61966038760416958}
-  - component: {fileID: 50914175210607360}
   - component: {fileID: 114007294501852114}
   - component: {fileID: 114409181762389340}
   - component: {fileID: 114901661503376126}
   - component: {fileID: 114601990907335476}
   - component: {fileID: 114198520654167522}
+  - component: {fileID: 50048261269649838}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -147,7 +147,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!50 &50914175210607360
+--- !u!50 &50048261269649838
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -165,8 +165,8 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!61 &61053410344358696
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -176,7 +176,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -401,8 +401,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1857959981
-  m_SortingLayer: 2
+  m_SortingLayerID: 2028794371
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: f67e0a6140057a94091bd809e1ad08f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

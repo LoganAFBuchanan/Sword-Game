@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     private Transform enemyTransform;
     private BoxCollider2D enemyBoxCollider;
     private ObjectStats stats;
-    private MoveObject moveScript;
+    [System.NonSerialized]public MoveObject moveScript;
     private MoveConfirmation moveConf;
 
     private GameObject player;
@@ -35,8 +35,11 @@ public class EnemyController : MonoBehaviour
     private RaycastHit2D[] playerHit;
 
     private SpriteRenderer spriteRender;
-    public Sprite basicSprite;
-    public Sprite dragonSprite;
+    private Sprite upSprite;
+    private Sprite rightSprite;
+    private Sprite downSprite;
+    
+
 
     public enum EnemyType
     {
@@ -50,7 +53,8 @@ public class EnemyController : MonoBehaviour
 
     // Use this for initialization
     void Awake()
-    {
+    {   
+        
 
         destSetter = GetComponent<Pathfinding.AIDestinationSetter>();
         destLerp = GetComponent<Pathfinding.AILerp>();
@@ -86,7 +90,14 @@ public class EnemyController : MonoBehaviour
             stats.SetMaxHealth(Constants.BASIC_ENEMY_HEALTH);
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.BASIC_ENEMY_DAMAGE);
-            spriteRender.sprite = basicSprite;
+
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/sprites");
+
+            upSprite = sprites[119];
+            rightSprite = sprites[120];
+            downSprite = sprites[118];
+            
+            spriteRender.sprite = downSprite;
         }
         if (enemyType == EnemyType.Dragon)
         {
@@ -94,7 +105,14 @@ public class EnemyController : MonoBehaviour
             stats.SetHealth(stats.GetMaxHealth());
             stats.SetDamage(Constants.DRAGON_ENEMY_DAMAGE);
             stats.atkRange = Constants.DRAGON_ENEMY_RANGE;
-            spriteRender.sprite = dragonSprite;
+
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/sprites");
+
+            upSprite = sprites[65];
+            rightSprite = sprites[66];
+            downSprite = sprites[64];
+
+            spriteRender.sprite = downSprite;
             attackWait = false;
         }
     }
@@ -115,6 +133,12 @@ public class EnemyController : MonoBehaviour
 
         }
 
+        if(attackWait){
+            spriteRender.color = Color.red;
+        }else{
+            spriteRender.color = Color.white;
+        }
+
         UpdateHealthBar();
 
     }
@@ -131,15 +155,20 @@ public class EnemyController : MonoBehaviour
 
         //Debug.log(moveVector.normalized);
 
+        int moveDirection;
+
         if (Mathf.Abs(moveVector.x) > Mathf.Abs(moveVector.y))
         {
             if (moveVector.x > 0)
             {
                 moveVector = new Vector2(1, 0);
+                moveDirection = 1;
+
             }
             else
             {
                 moveVector = new Vector2(-1, 0);
+                moveDirection = 3;
             }
         }
         else
@@ -147,12 +176,16 @@ public class EnemyController : MonoBehaviour
             if (moveVector.y > 0)
             {
                 moveVector = new Vector2(0, 1);
+                moveDirection = 0;
             }
             else
             {
                 moveVector = new Vector2(0, -1);
+                moveDirection = 2;
             }
         }
+
+        ChangeSprite(moveDirection);
 
         RaycastHit2D ray = new RaycastHit2D();
         //Check for enemy or walls
@@ -194,7 +227,7 @@ public class EnemyController : MonoBehaviour
                 {
                     //Fire breath!!!
                     //Create another function that spawns firebreath or whatever
-                    BreathFire(playerDirection);
+                    BreathFire(playerDirection, out playerHit);
                     Debug.Log("Enemy Breathes Fire now");
                     attackWait = false;
                 }
@@ -322,9 +355,11 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    private void BreathFire(int dir){
+    private void BreathFire(int dir, out RaycastHit2D[] checkForHits){
         
         Vector3 distance = new Vector3(0,0);
+
+        ChangeSprite(dir);
 
         switch(dir){
 
@@ -349,11 +384,31 @@ public class EnemyController : MonoBehaviour
             break;
 
         }
-
+        //Spawn fire on tiles equal to attack range
         for(int i = 1; i < stats.atkRange+1; i++){
             GameObject newFire = Instantiate(fire, this.transform);
             newFire.transform.position += distance * i;
         }
+
+        //Find Hits for da fire
+        distance *= stats.atkRange;
+        Debug.Log("Fire distance = " + distance);
+        Debug.DrawRay(this.transform.position, distance * stats.atkRange, Color.cyan, 10.0f);
+        enemyBoxCollider.enabled = false;
+        checkForHits = Physics2D.LinecastAll(this.transform.position, this.transform.position  + distance);
+        enemyBoxCollider.enabled = true;
+        if(checkForHits.Length != 0){
+            //For each object in checkForHits
+            foreach(RaycastHit2D item in checkForHits){
+                Debug.Log(item.transform.gameObject.name);
+            }
+            for(int i = 0; i < checkForHits.Length; i++){
+                if(checkForHits[i].collider.transform.gameObject.layer == player.layer || checkForHits[i].collider.transform.gameObject.layer == this.gameObject.layer){
+                    checkForHits[i].transform.gameObject.GetComponent<ObjectStats>().ChangeHealth(-stats.GetDamage());
+                }
+            }
+            
+		}
         return;
 
     }
@@ -460,14 +515,48 @@ public class EnemyController : MonoBehaviour
     private bool CheckLineCastArray(RaycastHit2D[] array){
 
         for(int i = 0; i < array.Length; i++){
-            if(array[i].transform.gameObject.layer == wallLayer){
+            if(array[i].collider.transform.gameObject.layer == wallLayer){
                 return false;
             }
-            if(array[i].transform.gameObject.layer == player.layer){
+            if(array[i].collider.transform.gameObject.layer == player.layer){
                 return true;
             }
         }
 
         return false;
+    }
+
+    public void ChangeSprite(int dir){
+		switch(dir){
+			case 0:
+              spriteRender.sprite = upSprite;
+			  spriteRender.flipX = false;
+              break;
+			case 1:
+              spriteRender.sprite = rightSprite;
+			  spriteRender.flipX = false;
+              break;
+          	case 2:
+              spriteRender.sprite = downSprite;
+			  spriteRender.flipX = false;
+              break;
+			case 3:
+              spriteRender.sprite = rightSprite;
+			  spriteRender.flipX = true;
+              break;
+          	default:
+              Debug.Log("Change Sprite for Enemy Error");
+              break;
+		}
+	}
+
+    public void SetEnemyType(string type){
+        if(type == "DRAGON"){
+            enemyType = EnemyType.Dragon;
+        }
+
+        if(type == "BASIC"){
+            enemyType = EnemyType.Basic;
+        }
     }
 }
