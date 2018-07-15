@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
 	private GameObject fogList;
 	private GameObject player;
 	private PlayerController playerControl;
+	private MapCreation mapControl;
 
 
 
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour {
 		enemyList = GameObject.Find("EnemyList");
 		fogList = GameObject.Find("FogList");
 		player = GameObject.Find("Player");
+		mapControl = GameObject.Find("Map_Creator").GetComponent<MapCreation>();
 
 		playerControl = player.GetComponent<PlayerController>();
 
@@ -26,12 +28,18 @@ public class GameController : MonoBehaviour {
 
 	void Start(){
 		UpdateFog();
+
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(player.GetComponent<MoveObject>().isMoving){
 			UpdateFog();
+		}
+
+		if(playerControl.stats.GetHealth() <= 0){
+			EndGame("Death");
 		}
 	}
 
@@ -48,6 +56,15 @@ public class GameController : MonoBehaviour {
 		//Debug.Log("Updating Fog");
 		foreach(Transform fog in fogList.transform){
 			fog.gameObject.GetComponent<FogController>().changeOpacity();
+		}
+	}
+
+	public void EndGame(string type){
+		switch(type){
+			case "Death":
+				mapControl.ResetMap();
+				playerControl.InitializeValues();
+			break;
 		}
 	}
 

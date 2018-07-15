@@ -19,16 +19,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-		stats = GetComponent<ObjectStats>();
-		spriteRender = GetComponent<SpriteRenderer>();
-		moveScript = GetComponent<PlayerMovement>();
-
-		stats.SetMaxHealth(Constants.PLAYER_STARTING_HEALTH);
-		stats.SetHealth(stats.GetMaxHealth());
-		stats.SetDamage(Constants.PLAYER_STARTING_DAMAGE);
-
-		stats.currFloor = 1;
-		stats.sightRange = 7;
+		InitializeValues();
 		
 	}
 	
@@ -60,6 +51,20 @@ public class PlayerController : MonoBehaviour {
               Debug.Log("Change Sprite for Player Error");
               break;
 		}
+	}
+
+	public void InitializeValues(){
+		stats = GetComponent<ObjectStats>();
+		spriteRender = GetComponent<SpriteRenderer>();
+		moveScript = GetComponent<PlayerMovement>();
+
+		stats.SetMaxHealth(Constants.PLAYER_STARTING_HEALTH);
+		stats.SetHealth(stats.GetMaxHealth());
+		stats.SetDamage(Constants.PLAYER_STARTING_DAMAGE);
+
+		stats.currFloor = 1;
+		stats.sightRange = 7;
+		stats.goldCount = 0;
 	}
 
 	public bool GetMoveWait(){
