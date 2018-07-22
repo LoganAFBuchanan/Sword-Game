@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwordPosition : MonoBehaviour {
 
+	private GameController gameControl;
+
 	private Transform swordTransform;
 	private GameObject player;
 	private Transform playerTransform;
@@ -32,6 +34,8 @@ public class SwordPosition : MonoBehaviour {
 		playerTransform = player.GetComponent<Transform>();
 		playerMovementScript = player.GetComponent<MoveObject>();
 		moveConf = player.GetComponent<MoveConfirmation>();
+		gameControl = GameObject.Find("GameController").GetComponent<GameController>();
+
 
 		rotating = false;
 		lerpVal = 0;
@@ -50,14 +54,11 @@ public class SwordPosition : MonoBehaviour {
             {
 				
 				InitiateRotation(input);
+				StartCoroutine(EndTurn());
 				
             }
 
-			//If a rotation is happening, every frame this function is called and rotates the sword by the corresponding increment
-			if(rotating){
-				
-
-			}
+			
         }
 	}
 
@@ -197,6 +198,12 @@ public class SwordPosition : MonoBehaviour {
 	public int GetRotatePosition(){
 		return rotatePosition;
 	}
+
+	IEnumerator EndTurn(){
+        yield return new WaitUntil(() => !rotating);
+        gameControl.TurnEnd();
+        gameControl.UpdateFog();
+    }
 
 
 }

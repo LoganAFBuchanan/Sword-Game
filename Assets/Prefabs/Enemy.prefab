@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 114059660753377696}
   - component: {fileID: 114014000385852376}
   m_Layer: 10
-  m_Name: EnemyCanvas
+  m_Name: ObjectCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 151.5
 --- !u!114 &114366016880793318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fb17520a2197a4cad64797125028c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 0
+  enemyType: 1
   fire: {fileID: 1910795493093948, guid: 72021c4c8e41d8d4a85dce2dfdd48ad1, type: 2}
 --- !u!114 &114819313132167536
 MonoBehaviour:

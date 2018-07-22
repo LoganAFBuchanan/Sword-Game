@@ -17,11 +17,14 @@ public class ObjectStats : MonoBehaviour {
 	[System.NonSerialized] public int goldCount;
 	[System.NonSerialized] public int currFloor;
 	
+	private GameObject objectCanvas;
+	private GameObject damageNumber;
 
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+		objectCanvas = this.transform.Find("ObjectCanvas").gameObject;
+		damageNumber = Resources.Load<GameObject>("Prefabs/DamageNumber");
 	}
 	
 	// Update is called once per frame
@@ -51,6 +54,9 @@ public class ObjectStats : MonoBehaviour {
 
 	public void ChangeHealth(int change){
 		Debug.Log(this.gameObject.name + "had it's health changed by:" + change);
+		GameObject damageNum = GameObject.Instantiate(damageNumber, this.transform);
+		damageNum.GetComponent<DamageNumberController>().damageVal = change;
+		damageNum.GetComponent<RectTransform>().SetParent(objectCanvas.transform);
 		health += change;
 	}
 

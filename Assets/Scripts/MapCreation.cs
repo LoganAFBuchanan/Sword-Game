@@ -9,7 +9,7 @@ public class MapCreation : MonoBehaviour
     //It also facilitates the random walkers which generate the rooms and hallways, it holds the functions which create individual rooms and passages
 
     public GameObject Wall;
-    public GameObject Player;
+    private GameObject Player;
     public GameObject MainWalker;
     public GameObject Enemy;
     public GameObject Gold;
@@ -32,14 +32,13 @@ public class MapCreation : MonoBehaviour
     void Awake()
     {
         mapTransform = GetComponent<Transform>();
+        Player = GameObject.Find("Player");
         generatingFlag = false;
     }
 
     void Start()
     {
-        InitializeMap();
-        MainWalker.GetComponent<WalkerController>().DrawPaths();
-        AstarPath.active.Scan();
+        ResetMap();
     }
 
     // Update is called once per frame
@@ -63,6 +62,7 @@ public class MapCreation : MonoBehaviour
             ClearMap();
             InitializeMap();
             MainWalker.GetComponent<WalkerController>().DrawPaths();
+            ClearAroundPlayer(3);
             AstarPath.active.Scan();
             generatingFlag = false;
         }
@@ -153,6 +153,18 @@ public class MapCreation : MonoBehaviour
         }
     }
 
+    public void ClearAroundPlayer(int size){
+        foreach (Transform child in EnemyList.transform)
+        {
+            //Debug.Log(Vector3.Distance(child.position, Player.transform.position));
+            if(Vector3.Distance(child.position, Player.transform.position) <= size*Constants.GRIDSIZE){
+                GameObject.Destroy(child.gameObject);
+            }
+            
+
+        }
+    }
+
     public void SetMarker(Transform walkerPos)
     {
         GameObject.Instantiate(Tile, walkerPos);
@@ -162,9 +174,9 @@ public class MapCreation : MonoBehaviour
     {
         GameObject newEnemy = GameObject.Instantiate(Enemy, walkerPos);
         newEnemy.transform.parent = EnemyList.transform;
-
+        
         int enemyRoll = Random.Range(0, 100);
-        Debug.Log(enemyRoll);
+        //Debug.Log(enemyRoll);
 
         if(enemyRoll < Constants.DRAGON_ENEMY_SPAWNCHANCE){
             newEnemy.GetComponent<EnemyController>().SetEnemyType("DRAGON");

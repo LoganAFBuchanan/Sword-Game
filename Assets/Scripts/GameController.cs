@@ -20,7 +20,9 @@ public class GameController : MonoBehaviour {
 		enemyList = GameObject.Find("EnemyList");
 		fogList = GameObject.Find("FogList");
 		player = GameObject.Find("Player");
-		mapControl = GameObject.Find("Map_Creator").GetComponent<MapCreation>();
+		if(GameObject.Find("Map_Creator") != null){
+			mapControl = GameObject.Find("Map_Creator").GetComponent<MapCreation>();
+		}
 
 		playerControl = player.GetComponent<PlayerController>();
 

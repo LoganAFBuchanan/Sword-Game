@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
     private GameObject enemyCanvas;
     private float healthBarMaxWidth;
     private float healthBarCurrWidth;
+    
 
     private bool attackWait;
     private int playerDirection;
@@ -68,8 +69,8 @@ public class EnemyController : MonoBehaviour
 
         gameCamera = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
-        enemyHealthBar = this.transform.Find("EnemyCanvas").transform.Find("EnemyHealthBar").gameObject.GetComponent<RectTransform>();
-        enemyCanvas = this.transform.Find("EnemyCanvas").gameObject;
+        enemyHealthBar = this.transform.Find("ObjectCanvas").transform.Find("EnemyHealthBar").gameObject.GetComponent<RectTransform>();
+        enemyCanvas = this.transform.Find("ObjectCanvas").gameObject;
         healthBarMaxWidth = enemyHealthBar.rect.width;
         healthBarCurrWidth = healthBarMaxWidth;
 
