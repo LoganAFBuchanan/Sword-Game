@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour {
 
 		if(playerControl.stats.GetHealth() <= 0){
 			EndGame("Death");
+			UpdateFog();
 		}
 	}
 

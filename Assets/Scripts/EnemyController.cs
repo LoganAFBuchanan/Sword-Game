@@ -39,6 +39,8 @@ public class EnemyController : MonoBehaviour
     private Sprite upSprite;
     private Sprite rightSprite;
     private Sprite downSprite;
+
+    [System.NonSerialized] public bool stunned;
     
 
 
@@ -75,6 +77,8 @@ public class EnemyController : MonoBehaviour
         healthBarCurrWidth = healthBarMaxWidth;
 
         spriteRender = GetComponent<SpriteRenderer>();
+
+        stunned = false;
         
 
         InitializeValues();
@@ -221,7 +225,12 @@ public class EnemyController : MonoBehaviour
         switch (enemyType)
         {
             case EnemyType.Basic:
-                moveEnemy();
+
+                if(!stunned){
+                    moveEnemy();
+                }
+
+                stunned = false;
                 break;
             case EnemyType.Dragon:
                 if (attackWait)
@@ -241,8 +250,11 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-                    moveEnemy(); //If player is not in range and not waiting to attack then simply move
+                    if(!stunned){
+                        moveEnemy(); //If player is not in range and not waiting to attack then simply move
+                    }
                 }
+                stunned = false;
                 break;
         }
 
@@ -431,7 +443,7 @@ public class EnemyController : MonoBehaviour
 
                 //Debug.log(this.gameObject.name + "'s current health is " + stats.GetHealth());
             }
-
+            stunned = true;
 
             Vector3 direction = other.transform.position - enemyTransform.position;
             //Debug.log("This is the difference vector" + direction);
