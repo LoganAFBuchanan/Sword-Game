@@ -34,4 +34,8 @@ public static class Constants {
 
 	public static float MID_GOLD_CHANCE = 0.15f;
 	public static float HIGH_GOLD_CHANCE = 0.05f;
+
+
+	public static float VAMPIRIC_SINGLE_CHANCE = 0.10f;
+	public static float VAMPIRIC_DOUBLE_CHANCE = 0.25f;
 }

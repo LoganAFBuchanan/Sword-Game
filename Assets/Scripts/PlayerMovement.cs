@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerController playerControl;
     private GameController gameControl;
+    private CurseController curseControl;
 
     private GameObject playerSword;
     private SwordPosition swordPos;
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         moveController = GetComponent<MoveObject>();
         playerControl = GetComponent<PlayerController>();
         gameControl = GameObject.Find("GameController").GetComponent<GameController>();
+        curseControl = GameObject.Find("CurseController").GetComponent<CurseController>();
 
         playerSword = GameObject.Find("Sword");
         swordPos = playerSword.GetComponent<SwordPosition>();
@@ -47,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
         if (!moveController.isMoving && !playerControl.GetMoveWait() && (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
         {
             PlayerMove();
+            if(playerControl.curses.Contains("jumpy") || playerControl.curses.Contains("of leaping")){
+                curseControl.Jumpy(this);
+            }
             StartCoroutine(EndTurn());
             
         }

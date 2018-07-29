@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour {
 	
 	private bool moveWait;
 
+	[System.NonSerialized]public List<string> curses;
+
+
 
 	// Use this for initialization
 	void Awake () {
@@ -57,6 +60,8 @@ public class PlayerController : MonoBehaviour {
 		stats = GetComponent<ObjectStats>();
 		spriteRender = GetComponent<SpriteRenderer>();
 		moveScript = GetComponent<PlayerMovement>();
+
+		curses = new List<string>();
 
 		stats.SetMaxHealth(Constants.PLAYER_STARTING_HEALTH);
 		stats.SetHealth(stats.GetMaxHealth());

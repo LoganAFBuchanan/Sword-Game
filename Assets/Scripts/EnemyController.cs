@@ -41,6 +41,8 @@ public class EnemyController : MonoBehaviour
     private Sprite downSprite;
 
     [System.NonSerialized] public bool stunned;
+
+    private CurseController curseController;
     
 
 
@@ -62,6 +64,7 @@ public class EnemyController : MonoBehaviour
         destSetter = GetComponent<Pathfinding.AIDestinationSetter>();
         destLerp = GetComponent<Pathfinding.AILerp>();
         player = GameObject.Find("Player");
+        curseController = GameObject.Find("CurseController").GetComponent<CurseController>();
 
         enemyTransform = GetComponent<Transform>();
         enemyBoxCollider = GetComponent<BoxCollider2D>();
@@ -440,6 +443,14 @@ public class EnemyController : MonoBehaviour
             { //If the parent is the player
                 int damage = parent.GetComponent<ObjectStats>().GetDamage();
                 stats.ChangeHealth(-damage);
+
+                if(stats.GetHealth() <= 0){
+                    PlayerController control = parent.GetComponent<PlayerController>();
+                    if(control.curses.Contains("vampiric") || control.curses.Contains("of lifestealing")){
+                        curseController.Vampiric();
+                    }
+
+                }
 
                 //Debug.log(this.gameObject.name + "'s current health is " + stats.GetHealth());
             }
